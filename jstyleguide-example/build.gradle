@@ -1,0 +1,137 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.0.RELEASE")
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+apply plugin: 'idea'
+
+project(":frontend") {
+
+    apply plugin: 'java'
+    apply plugin: 'maven'
+    apply plugin: 'idea'
+    apply plugin: 'spring-boot'
+
+    buildDir = rootProject.buildDir;
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    bootRepackage {
+        enabled = false
+    }
+
+    springBoot {
+        mainClass = "org.jstyleguide.Application"
+    }
+
+    bootRun {
+        main = "org.jstyleguide.Application"
+        addResources = true
+    }
+
+    sourceSets.main.resources {
+        srcDir "${rootProject.projectDir}/src"
+    }
+
+    dependencies {
+        compile("org.springframework.boot:spring-boot-starter-web")
+
+        compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+        compile("com.google.code.gson:gson:2.4")
+        compile("net.sourceforge.nekohtml:nekohtml:1.9.15")
+
+        compile("org.jstyleguide:jstyleguide:0+")
+
+        compile("org.springframework.boot:spring-boot-devtools")
+    }
+
+    idea {
+        module {
+            inheritOutputDirs = false
+            outputDir = file("$buildDir/classes/main/")
+        }
+    }
+}
+
+project(":styleguide") {
+
+    apply plugin: 'java'
+    apply plugin: 'maven'
+    apply plugin: 'war'
+    apply plugin: 'idea'
+    apply plugin: 'spring-boot'
+
+    configurations {
+        providedRuntime
+    }
+
+    buildDir = rootProject.buildDir;
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    springBoot {
+        mainClass = "org.jstyleguide.Application"
+    }
+
+    dependencies {
+        compile("org.springframework.boot:spring-boot-starter-web")
+        providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+
+        compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+        compile("com.google.code.gson:gson:2.4")
+        compile("net.sourceforge.nekohtml:nekohtml:1.9.15")
+
+        runtime project(":frontend")
+        compile("org.jstyleguide:jstyleguide:0+")
+
+        compile("org.springframework.boot:spring-boot-devtools")
+    }
+
+    war {
+        baseName = 'styleguide'
+    }
+}
+
+task serve {
+    doLast {
+        project(":frontend").tasks.bootRun.execute();
+    }
+}
+
+task setup {
+    doLast {
+        [".frontend/build/libs",
+         ".styleguide",
+         "src/content/atoms",
+         "src/content/molecules",
+         "src/content/organisms",
+         "src/content/templates",
+         "src/templates/atoms",
+         "src/templates/molecules",
+         "src/templates/organisms",
+         "src/templates/templates",
+         "src/static/styles",
+         "src/static/images",
+         "src/static/scripts"].each {
+            def srcFolder = new File(project.projectDir, it)
+            if (!srcFolder.exists()) {
+                srcFolder.mkdirs();
+            }
+        }
+    }
+}

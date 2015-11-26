@@ -1,0 +1,3 @@
+include 'frontend', 'styleguide'
+project(':frontend').projectDir = new File('.frontend')
+project(':styleguide').projectDir = new File('.styleguide')

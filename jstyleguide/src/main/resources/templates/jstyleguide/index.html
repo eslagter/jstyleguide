@@ -1,0 +1,132 @@
+<html>
+ <head th:fragment="head">
+    <title>JStyleGuide</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+    <link href="../../static/jstyleguide/css/dropdown.css" th:href="@{/jstyleguide/css/dropdown.css}" rel="stylesheet">
+ </head>
+ <body>
+
+ <nav class="navbar navbar-default navbar-static-top" style="margin-bottom: 0;">
+     <div class="container-fluid">
+
+         <div class="navbar-header">
+             <a class="navbar-brand" href="/">
+                 <img alt="Brand" src="../../static/jstyleguide/images/osudio.png" th:src="@{/jstyleguide/images/osudio.png}">
+
+             </a>
+             <a class="navbar-brand" href="/">
+                 <span>JStyleGuide</span>
+             </a>
+
+         </div>
+
+         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+             <ul class="nav navbar-nav">
+
+                 <li class="dropdown" th:if="${!#lists.isEmpty(atoms.keySet())}">
+                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Atoms <span class="caret"></span></a>
+                     <ul class="dropdown-menu" role="menu">
+                         <li th:each="atom : ${atoms}" class="dropdown-submenu" >
+                             <a href="#" th:text="${atom.key}" data-toggle="dropdown">Atom</a>
+                             <ul class="dropdown-menu">
+                                 <li th:each="subAtom : ${atom.value}"><a href="#" th:href="@{/(path=${subAtom.path})}" th:text="${subAtom.name}">Atom</a></li>
+                             </ul>
+                         </li>
+                     </ul>
+                 </li>
+
+                 <li class="dropdown" th:if="${!#lists.isEmpty(molecules.keySet())}">
+                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Molecules <span class="caret"></span></a>
+                     <ul class="dropdown-menu" role="menu">
+                         <li th:each="atom : ${molecules}" class="dropdown-submenu" >
+                             <a href="#" th:text="${atom.key}" data-toggle="dropdown">Atom</a>
+                             <ul class="dropdown-menu">
+                                 <li th:each="subAtom : ${atom.value}"><a href="#" th:href="@{/(path=${subAtom.path})}" th:text="${subAtom.name}">Atom</a></li>
+                             </ul>
+                         </li>
+                     </ul>
+                 </li>
+
+                 <li class="dropdown" th:if="${!#lists.isEmpty(organisms.keySet())}">
+                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Organisms <span class="caret"></span></a>
+                     <ul class="dropdown-menu" role="menu">
+                         <li th:each="atom : ${organisms}" class="dropdown-submenu" >
+                             <a href="#" th:text="${atom.key}" data-toggle="dropdown">Atom</a>
+                             <ul class="dropdown-menu">
+                                 <li th:each="subAtom : ${atom.value}"><a href="#" th:href="@{/(path=${subAtom.path})}" th:text="${subAtom.name}">Atom</a></li>
+                             </ul>
+                         </li>
+                     </ul>
+                 </li>
+
+                 <li class="dropdown" th:if="${!#lists.isEmpty(organisms.keySet())}">
+                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Templates<span class="caret"></span></a>
+                     <ul class="dropdown-menu" role="menu">
+                         <li th:each="atom : ${templates}" class="dropdown-submenu" >
+                             <a href="#" th:text="${atom.key}" data-toggle="dropdown">Template Category</a>
+                             <ul class="dropdown-menu">
+                                 <li th:each="subAtom : ${atom.value}"><a href="#" th:href="@{/(path=${subAtom.path})}" th:text="${subAtom.name}">Template</a></li>
+                             </ul>
+                         </li>
+                     </ul>
+                 </li>
+             </ul>
+
+             <!---->
+             <!--<form class="navbar-form navbar-left" role="search">-->
+                 <!--<div class="form-group">-->
+                     <!--<input type="text" class="form-control" placeholder="Search">-->
+                 <!--</div>-->
+                 <!--<button type="submit" class="btn btn-default">Submit</button>-->
+             <!--</form>-->
+             <!--<ul class="nav navbar-nav navbar-right">-->
+                 <!--<li><a href="#">Link</a></li>-->
+                 <!--<li class="dropdown">-->
+                     <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>-->
+                     <!--<ul class="dropdown-menu">-->
+                         <!--<li><a href="#">Action</a></li>-->
+                         <!--<li><a href="#">Another action</a></li>-->
+                         <!--<li><a href="#">Something else here</a></li>-->
+                         <!--<li role="separator" class="divider"></li>-->
+                         <!--<li><a href="#">Separated link</a></li>-->
+                     <!--</ul>-->
+                 <!--</li>-->
+             <!--</ul>-->
+
+         </div>
+     </div>
+
+     <div style="position:fixed; margin: 20px; right: 0;">
+         <ol class="breadcrumb">
+             <li><a href="/" th:href="@{/}">Home</a></li>
+             <li th:text="${component.type}">Atoms</li>
+             <li th:text="${component.group}">Text</li>
+             <li>
+                 <div class="btn-group">
+                     <button type="button" class="btn btn-sm btn-default"><span th:text="${component.name}">h1</span> <span th:if="${!#strings.isEmpty(component.option)}">[<span th:text="${component.option}">default</span>]</span></button>
+                     <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:if="${!#lists.isEmpty(component.options)}">
+                         <span>&nbsp;</span>
+                         <span class="caret">&nbsp;</span>
+                         <span>&nbsp;</span>
+                     </button>
+                     <ul class="dropdown-menu dropdown-menu-right" th:if="${!#lists.isEmpty(component.options)}">
+                         <li th:each="option : ${component.options}"><a th:href="@{/(path=${component.path}, content=${option})}" th:text="${option}">opt</a></li>
+                         <li role="separator" class="divider"></li>
+                         <li><a href="#" th:href="@{/(path=${component.path})}">default</a></li>
+                     </ul>
+                 </div>
+             </li>
+         </ol>
+     </div>
+ </nav>
+
+
+ <iframe id="componentviewer" src="https://www.vuurwerk-folders.nl" th:src="@{component(path=${component.path}, content=${component.option})}"  style="border: 0px; padding: 0px; margin: 0px; width: 100vw; height: 100vh;"></iframe>
+
+ <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha256-Sk3nkD6mLTMOF0EOpNtsIry+s1CsaqQC1rVLTAy+0yc= sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+ <script src="../../static/jstyleguide/js/dropdown.js" th:src="@{/jstyleguide/js/dropdown.js}"></script>
+
+ </body>
+</html>
